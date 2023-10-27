@@ -7,7 +7,7 @@ class LabeledComboBox(QWidget):
         self.combobox = QComboBox()
         layout = QHBoxLayout()
         layout.addWidget(self.label)
-        layout.addWidget(self.spinbox)
+        layout.addWidget(self.combobox)
         layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
 
