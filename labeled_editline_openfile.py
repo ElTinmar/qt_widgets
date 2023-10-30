@@ -27,8 +27,11 @@ class FileOpenLabeledEditButton(QWidget):
         file_name = QFileDialog.getOpenFileName(self, 'Select file')
         self.line_edit.setText(file_name[0])
 
-    def setText(self, text: str) -> None:
+    def setLabel(self, text: str) -> None:
         self.label.setText(text)
+
+    def setEditField(self, text: str) -> None:
+        self.line_edit.setText(text)
 
     @property
     def textChanged(self):
