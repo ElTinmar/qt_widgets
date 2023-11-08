@@ -1,17 +1,17 @@
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QWidget, QFileDialog, QLineEdit, QPushButton, QLabel, QSpinBox, QHBoxLayout
 
-class FileOpenLabeledEditButton(QWidget):
+class FileSaveLabeledEditButton(QWidget):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.label = QLabel()
-        self.label.setText('Open file:')
+        self.label.setText('Save background:')
         
         self.line_edit = QLineEdit()
         self.line_edit.setMinimumWidth(300)
 
         self.button = QPushButton()
-        folder_icon = QIcon.fromTheme('document-open')
+        folder_icon = QIcon.fromTheme('document-save')
         self.button.setIcon(folder_icon)
         self.button.clicked.connect(self.open_dialog)
 
@@ -24,14 +24,11 @@ class FileOpenLabeledEditButton(QWidget):
         self.setLayout(layout)
 
     def open_dialog(self):
-        file_name = QFileDialog.getOpenFileName(self, 'Select file')
+        file_name = QFileDialog.getSaveFileName(self, 'Save file')
         self.line_edit.setText(file_name[0])
 
-    def setLabel(self, text: str) -> None:
+    def setText(self, text: str) -> None:
         self.label.setText(text)
-
-    def setEditField(self, text: str) -> None:
-        self.line_edit.setText(text)
 
     @property
     def textChanged(self):
