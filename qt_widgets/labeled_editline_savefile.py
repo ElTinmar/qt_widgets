@@ -5,7 +5,7 @@ class FileSaveLabeledEditButton(QWidget):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.label = QLabel()
-        self.label.setText('Save background:')
+        self.label.setText('Save file:')
         
         self.line_edit = QLineEdit()
         self.line_edit.setMinimumWidth(300)
