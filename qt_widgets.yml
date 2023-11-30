@@ -1,0 +1,7 @@
+name: qt_widgets
+channels:
+- conda-forge
+dependencies:
+- python == 3.8.16
+- numpy
+- pyqt5
