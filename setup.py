@@ -10,6 +10,6 @@ setup(
     long_description=open('README.md').read(),
     install_requires=[
         "numpy",
-        "PyQt5"
+        "PyQt5 == 5.15.3",
     ]
 )
