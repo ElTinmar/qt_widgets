@@ -1,9 +1,11 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QSlider, QDoubleSpinBox, QHBoxLayout
 from PyQt5.QtCore import Qt
 
-class LabeledSliderSpinBox(QWidget):
-    def __init__(self, *args, **kwargs) -> None:
+class LabeledSliderDoubleSpinBox(QWidget):
+
+    def __init__(self, slider_precision: int = 100, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+        self.slider_precision = slider_precision 
         self.label = QLabel()
         self.slider = QSlider(Qt.Horizontal)
         self.slider.valueChanged.connect(self.slider_change)
@@ -17,26 +19,28 @@ class LabeledSliderSpinBox(QWidget):
         self.setLayout(layout)
 
     def slider_change(self):
-        self.spinbox.setValue(self.slider.value())
+        value = self.slider.value() / self.slider_precision
+        self.spinbox.setValue(value)
 
     def spinbox_change(self):
-        self.slider.setValue(self.spinbox.value())
+        value = self.spinbox.value() * self.slider_precision
+        self.slider.setValue(value)
 
     def setText(self, text: str) -> None:
         self.label.setText(text)
 
     def setRange(self, lo: float, hi: float) -> None:
         self.spinbox.setRange(lo,hi)
-        self.slider.setMinimum(lo)
-        self.slider.setMaximum(hi)
+        self.slider.setMinimum(int(lo*self.slider_precision))
+        self.slider.setMaximum(int(hi*self.slider_precision))
     
     def setValue(self, val: float) -> None:
         self.spinbox.setValue(val)
-        self.slider.setValue(val)
+        self.slider.setValue(int(val*self.slider_precision))
 
     def setSingleStep(self, val: float) -> None:
         self.spinbox.setSingleStep(val)
-        self.slider.setSingleStep(val)
+        self.slider.setSingleStep(int(val*self.slider_precision))
 
     @property
     def valueChanged(self):
