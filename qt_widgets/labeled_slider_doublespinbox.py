@@ -3,9 +3,10 @@ from PyQt5.QtCore import Qt
 
 class LabeledSliderDoubleSpinBox(QWidget):
 
-    def __init__(self, slider_precision: int = 100, *args, **kwargs) -> None:
+    slider_precision: int = 100
+
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.slider_precision = slider_precision 
         self.label = QLabel()
         self.slider = QSlider(Qt.Horizontal)
         self.slider.valueChanged.connect(self.slider_change)
