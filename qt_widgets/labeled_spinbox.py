@@ -24,6 +24,10 @@ class LabeledSpinBox(QWidget):
         self.spinbox.setSingleStep(val)
 
     @property
+    def editingFinished(self):
+        return self.spinbox.editingFinished
+    
+    @property
     def valueChanged(self):
         return self.spinbox.valueChanged 
 

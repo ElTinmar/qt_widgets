@@ -39,6 +39,10 @@ class LabeledSliderSpinBox(QWidget):
         self.slider.setSingleStep(val)
 
     @property
+    def editingFinished(self):
+        return self.spinbox.editingFinished
+    
+    @property
     def valueChanged(self):
         return self.spinbox.valueChanged 
 
