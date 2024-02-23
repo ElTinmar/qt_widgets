@@ -5,6 +5,7 @@ class LabeledSpinBox(QWidget):
         super().__init__(*args, **kwargs)
         self.label = QLabel()
         self.spinbox = QSpinBox()
+        self.spinbox.setKeyboardTracking(False)
         layout = QHBoxLayout()
         layout.addWidget(self.label)
         layout.addWidget(self.spinbox)
@@ -22,10 +23,6 @@ class LabeledSpinBox(QWidget):
 
     def setSingleStep(self, val: int) -> None:
         self.spinbox.setSingleStep(val)
-
-    @property
-    def editingFinished(self):
-        return self.spinbox.editingFinished
     
     @property
     def valueChanged(self):
