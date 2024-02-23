@@ -26,7 +26,9 @@ class LabeledSliderDoubleSpinBox(QWidget):
 
     def spinbox_change(self):
         value = self.spinbox.value() * self.slider_precision
+        self.slider.blockSignal(True)
         self.slider.setValue(value)
+        self.slider.blockSignal(False)
 
     def setText(self, text: str) -> None:
         self.label.setText(text)
