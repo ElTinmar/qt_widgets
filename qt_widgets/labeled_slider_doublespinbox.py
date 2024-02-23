@@ -22,6 +22,7 @@ class LabeledSliderDoubleSpinBox(QWidget):
     def slider_change(self):
         value = self.slider.value() / self.slider_precision
         self.spinbox.setValue(value)
+        self.spinbox.editingFinished.emit()
 
     def spinbox_change(self):
         value = self.spinbox.value() * self.slider_precision
