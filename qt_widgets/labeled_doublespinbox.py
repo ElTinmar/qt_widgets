@@ -5,6 +5,7 @@ class LabeledDoubleSpinBox(QWidget):
         super().__init__(*args, **kwargs)
         self.label = QLabel()
         self.spinbox = QDoubleSpinBox()
+        self.spinbox.setKeyboardTracking(False)
         layout = QHBoxLayout()
         layout.addWidget(self.label)
         layout.addWidget(self.spinbox)
