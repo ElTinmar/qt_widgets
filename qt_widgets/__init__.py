@@ -4,6 +4,7 @@ __all__ = ["labeled_doublespinbox", "labeled_editline_openfile", "labeled_editli
 
 from .labeled_spinbox import *
 from .labeled_doublespinbox import *
+from .labeled_editline import *
 from .labeled_editline_openfile import *
 from .labeled_editline_savefile import *
 from .labeled_slider_spinbox import *
