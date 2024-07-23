@@ -43,7 +43,11 @@ class LabeledSliderDoubleSpinBox(QWidget):
     def setSingleStep(self, val: float) -> None:
         self.spinbox.setSingleStep(val)
         self.slider.setSingleStep(int(val*self.slider_precision))
-    
+
+    def setEnabled(self, enabled:bool) -> None:
+        self.slider.setEnabled(enabled)
+        self.spinbox.setEnabled(enabled)
+        
     @property
     def valueChanged(self):
         return self.spinbox.valueChanged 

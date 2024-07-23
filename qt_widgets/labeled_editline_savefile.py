@@ -30,6 +30,9 @@ class FileSaveLabeledEditButton(QWidget):
     def setText(self, text: str) -> None:
         self.label.setText(text)
 
+    def setEnabled(self, enabled:bool) -> None:
+        return self.button.setEnabled(enabled)
+
     @property
     def textChanged(self):
         return self.line_edit.textChanged 

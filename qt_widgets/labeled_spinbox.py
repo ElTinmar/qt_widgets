@@ -23,7 +23,10 @@ class LabeledSpinBox(QWidget):
 
     def setSingleStep(self, val: int) -> None:
         self.spinbox.setSingleStep(val)
-    
+
+    def setEnabled(self, enabled:bool) -> None:
+        return self.spinbox.setEnabled(enabled)
+        
     @property
     def valueChanged(self):
         return self.spinbox.valueChanged 

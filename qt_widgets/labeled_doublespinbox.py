@@ -24,6 +24,9 @@ class LabeledDoubleSpinBox(QWidget):
     def setSingleStep(self, val: float) -> None:
         self.spinbox.setSingleStep(val)
 
+    def setEnabled(self, enabled:bool) -> None:
+        return self.spinbox.setEnabled(enabled)
+    
     @property
     def editingFinished(self):
         return self.spinbox.editingFinished

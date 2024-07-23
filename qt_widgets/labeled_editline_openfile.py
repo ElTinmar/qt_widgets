@@ -33,6 +33,9 @@ class FileOpenLabeledEditButton(QWidget):
     def setEditField(self, text: str) -> None:
         self.line_edit.setText(text)
 
+    def setEnabled(self, enabled:bool) -> None:
+        return self.button.setEnabled(enabled)
+    
     @property
     def textChanged(self):
         return self.line_edit.textChanged 

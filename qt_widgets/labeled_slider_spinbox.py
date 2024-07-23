@@ -38,7 +38,11 @@ class LabeledSliderSpinBox(QWidget):
     def setSingleStep(self, val: int) -> None:
         self.spinbox.setSingleStep(val)
         self.slider.setSingleStep(val)
-    
+
+    def setEnabled(self, enabled:bool) -> None:
+        self.slider.setEnabled(enabled)
+        self.spinbox.setEnabled(enabled)
+            
     @property
     def valueChanged(self):
         return self.spinbox.valueChanged 
