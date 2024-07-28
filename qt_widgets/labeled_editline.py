@@ -26,5 +26,5 @@ class LabeledEditLine(QWidget):
     def textChanged(self):
         return self.line_edit.textChanged 
 
-    def text(self) -> int:
+    def text(self) -> str:
         return self.line_edit.text()
