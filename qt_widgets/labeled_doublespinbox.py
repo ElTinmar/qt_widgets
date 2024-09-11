@@ -25,8 +25,20 @@ class LabeledDoubleSpinBox(QWidget):
         self.spinbox.setSingleStep(val)
 
     def setEnabled(self, enabled:bool) -> None:
-        return self.spinbox.setEnabled(enabled)
+        self.spinbox.setEnabled(enabled)
+
+    def minimum(self):
+        return self.spinbox.minimum()
+
+    def maximum(self):
+        return self.spinbox.maximum()
+
+    def singleStep(self):
+        return self.spinbox.singleStep()
     
+    def isEnabled(self):
+        return self.spinbox.isEnabled()
+        
     @property
     def editingFinished(self):
         return self.spinbox.editingFinished
