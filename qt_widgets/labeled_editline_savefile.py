@@ -27,7 +27,7 @@ class FileSaveLabeledEditButton(QWidget):
         file_name = QFileDialog.getSaveFileName(self, 'Save file')
         self.line_edit.setText(file_name[0])
 
-    def setText(self, text: str) -> None:
+    def setLabel(self, text: str) -> None:
         self.label.setText(text)
 
     def setEnabled(self, enabled:bool) -> None:
