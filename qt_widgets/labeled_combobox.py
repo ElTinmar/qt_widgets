@@ -18,11 +18,18 @@ class LabeledComboBox(QWidget):
         self.combobox.addItem(item)
 
     def setEnabled(self, enabled:bool) -> None:
-        return self.combobox.setEnabled(enabled)
+        self.combobox.setEnabled(enabled)
+    
+    def setCurrentIndex(self, index: int):
+        self.combobox.setCurrentIndex(index)
  
     @property
     def currentIndexChanged(self):
         return self.combobox.currentIndexChanged 
+
+    @property
+    def currentTextChanged(self):
+        return self.combobox.currentTextChanged 
     
     def currentIndex(self) -> int:
         return self.combobox.currentIndex()
