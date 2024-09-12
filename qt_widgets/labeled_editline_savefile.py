@@ -2,8 +2,13 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QWidget, QFileDialog, QLineEdit, QPushButton, QLabel, QSpinBox, QHBoxLayout
 
 class FileSaveLabeledEditButton(QWidget):
+
     def __init__(self, *args, **kwargs) -> None:
+
         super().__init__(*args, **kwargs)
+
+        self.default_file = ''
+
         self.label = QLabel()
         self.label.setText('Save file:')
         
@@ -23,8 +28,12 @@ class FileSaveLabeledEditButton(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
 
+    def setDefault(self, filename: str):
+        self.default_file = filename
+        self.line_edit.setText(filename)
+
     def open_dialog(self):
-        file_name = QFileDialog.getSaveFileName(self, 'Save file')
+        file_name = QFileDialog.getSaveFileName(self, 'Save file', self.default_file)
         self.line_edit.setText(file_name[0])
 
     def setLabel(self, text: str) -> None:
