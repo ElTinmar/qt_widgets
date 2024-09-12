@@ -23,6 +23,9 @@ class LabeledComboBox(QWidget):
     def setCurrentIndex(self, index: int):
         self.combobox.setCurrentIndex(index)
  
+    def setCurrentText(self, text: str):
+        self.combobox.setCurrentText(text)
+
     @property
     def currentIndexChanged(self):
         return self.combobox.currentIndexChanged 
@@ -33,3 +36,6 @@ class LabeledComboBox(QWidget):
     
     def currentIndex(self) -> int:
         return self.combobox.currentIndex()
+    
+    def currentText(self) -> str:
+        return self.combobox.currentText()
