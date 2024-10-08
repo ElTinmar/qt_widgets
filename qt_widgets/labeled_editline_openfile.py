@@ -3,7 +3,11 @@ from PyQt5.QtWidgets import QWidget, QFileDialog, QLineEdit, QPushButton, QLabel
 
 class FileOpenLabeledEditButton(QWidget):
     def __init__(self, *args, **kwargs) -> None:
+
         super().__init__(*args, **kwargs)
+
+        self.default_file = ''
+
         self.label = QLabel()
         self.label.setText('Open file:')
         
@@ -22,6 +26,10 @@ class FileOpenLabeledEditButton(QWidget):
         
         layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
+
+    def setDefault(self, filename: str):
+        self.default_file = filename
+        self.line_edit.setText(filename)
 
     def open_dialog(self):
         file_name = QFileDialog.getOpenFileName(self, 'Select file')
