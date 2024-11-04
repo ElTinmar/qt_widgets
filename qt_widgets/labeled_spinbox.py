@@ -44,6 +44,12 @@ class LabeledSpinBox(QWidget):
     
     def isEnabled(self):
         return self.spinbox.isEnabled()
+
+    def stepUp(self):
+        return self.spinbox.stepUp()
+    
+    def stepDown(self):
+        return self.spinbox.stepDown()
     
     @property
     def valueChanged(self):
