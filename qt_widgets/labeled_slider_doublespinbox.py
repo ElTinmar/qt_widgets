@@ -53,7 +53,10 @@ class LabeledSliderDoubleSpinBox(QWidget):
     
     def stepDown(self):
         return self.spinbox.stepDown()
-            
+
+    def stepBy(self, steps: int):
+        return self.spinbox.stepBy(steps)
+    
     @property
     def valueChanged(self):
         return self.spinbox.valueChanged 
