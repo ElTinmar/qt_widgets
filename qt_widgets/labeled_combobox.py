@@ -1,8 +1,11 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QHBoxLayout
 
 class LabeledComboBox(QWidget):
+
     def __init__(self, *args, **kwargs) -> None:
+    
         super().__init__(*args, **kwargs)
+    
         self.label = QLabel()
         self.combobox = QComboBox()
         layout = QHBoxLayout()
@@ -25,6 +28,9 @@ class LabeledComboBox(QWidget):
  
     def setCurrentText(self, text: str):
         self.combobox.setCurrentText(text)
+
+    def clear(self):
+        self.combobox.clear()
 
     @property
     def currentIndexChanged(self):
