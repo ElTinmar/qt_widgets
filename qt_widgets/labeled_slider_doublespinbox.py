@@ -48,6 +48,10 @@ class LabeledSliderDoubleSpinBox(QWidget):
         self.slider.setEnabled(enabled)
         self.spinbox.setEnabled(enabled)
         
+    def blockSignals(self, block: bool) -> None:
+        self.slider.blockSignals(block)
+        self.spinbox.blockSignals(block)
+
     @property
     def valueChanged(self):
         return self.spinbox.valueChanged 
