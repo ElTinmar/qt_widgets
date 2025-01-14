@@ -2,7 +2,8 @@ from PyQt5.QtGui import QPixmap, QImage
 from numpy.typing import NDArray
 import numpy as np
 
-def NDarray_to_QPixmap(img: NDArray) -> QPixmap:
+def NDarray_to_QPixmap(img: NDArray, format = QImage.Format_BGR888) -> QPixmap:
+    # note opencv uses BGR format by default
     
     # in case we have a singleton dimension
     if (len(img.shape) == 3) and img.shape[2] == 1:
@@ -13,6 +14,6 @@ def NDarray_to_QPixmap(img: NDArray) -> QPixmap:
         img = np.dstack((img,img,img))
     
     h,w,ch = img.shape
-    # note opencv uses BGR format by default
-    qimg = QImage(img.data, w, h, 3*w, QImage.Format_BGR888) 
+    qimg = QImage(img.data, w, h, 3*w, format)  
     return QPixmap(qimg)
+
