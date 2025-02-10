@@ -5,7 +5,7 @@ from pathlib import Path
 class FileOpenLabeledEditButton(QWidget):
 
     BASE_DIR = Path(__file__).resolve().parent  # Get the directory of the current script
-    LOAD_ICON = str(BASE_DIR / "resources" / "document-load.svg") 
+    LOAD_ICON = str(BASE_DIR / "resources" / "document-open.svg") 
 
     def __init__(self, *args, **kwargs) -> None:
 
