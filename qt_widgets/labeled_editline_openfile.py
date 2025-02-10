@@ -1,7 +1,12 @@
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QWidget, QFileDialog, QLineEdit, QPushButton, QLabel, QSpinBox, QHBoxLayout
+from pathlib import Path
 
 class FileOpenLabeledEditButton(QWidget):
+
+    BASE_DIR = Path(__file__).resolve().parent  # Get the directory of the current script
+    LOAD_ICON = BASE_DIR / "resources" / "document-load.svg" 
+
     def __init__(self, *args, **kwargs) -> None:
 
         super().__init__(*args, **kwargs)
@@ -15,7 +20,7 @@ class FileOpenLabeledEditButton(QWidget):
         self.line_edit.setMinimumWidth(300)
 
         self.button = QPushButton()
-        folder_icon = QIcon('./resources/document-open.svg')
+        folder_icon = QIcon(self.LOAD_ICON)
         self.button.setIcon(folder_icon)
         self.button.clicked.connect(self.open_dialog)
 
