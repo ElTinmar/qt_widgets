@@ -15,7 +15,7 @@ class FileOpenLabeledEditButton(QWidget):
         self.line_edit.setMinimumWidth(300)
 
         self.button = QPushButton()
-        folder_icon = QIcon.fromTheme('document-open')
+        folder_icon = QIcon('resources/document-open.svg')
         self.button.setIcon(folder_icon)
         self.button.clicked.connect(self.open_dialog)
 

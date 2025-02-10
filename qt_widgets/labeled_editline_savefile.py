@@ -16,7 +16,7 @@ class FileSaveLabeledEditButton(QWidget):
         self.line_edit.setMinimumWidth(300)
 
         self.button = QPushButton()
-        folder_icon = QIcon.fromTheme('document-save')
+        folder_icon = QIcon('resources/document-save.svg')
         self.button.setIcon(folder_icon)
         self.button.clicked.connect(self.open_dialog)
 
