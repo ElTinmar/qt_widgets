@@ -5,7 +5,7 @@ from pathlib import Path
 class FileSaveLabeledEditButton(QWidget):
 
     BASE_DIR = Path(__file__).resolve().parent  # Get the directory of the current script
-    SAVE_ICON = BASE_DIR / "resources" / "document-save.svg" 
+    SAVE_ICON = str(BASE_DIR / "resources" / "document-save.svg")
     
     def __init__(self, *args, **kwargs) -> None:
 
