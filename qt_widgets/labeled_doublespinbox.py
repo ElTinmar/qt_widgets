@@ -17,7 +17,13 @@ class LabeledDoubleSpinBox(QWidget):
 
     def setRange(self, lo: float, hi: float) -> None:
         self.spinbox.setRange(lo,hi)
-    
+
+    def setMinimum(self, val: float) -> None:
+        self.spinbox.setMinimum(val)
+
+    def setMaximum(self, val: float) -> None:
+        self.spinbox.setMaximum(val)
+
     def setValue(self, val: float) -> None:
         self.spinbox.setValue(val)
     

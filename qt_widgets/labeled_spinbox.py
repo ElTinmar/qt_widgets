@@ -23,6 +23,12 @@ class LabeledSpinBox(QWidget):
 
     def setRange(self, lo: int, hi: int) -> None:
         self.spinbox.setRange(lo,hi)
+
+    def setMinimum(self, val: int) -> None:
+        self.spinbox.setMinimum(val)
+
+    def setMaximum(self, val: int) -> None:
+        self.spinbox.setMaximum(val)
     
     def setValue(self, val: int) -> None:
         self.spinbox.setValue(val)

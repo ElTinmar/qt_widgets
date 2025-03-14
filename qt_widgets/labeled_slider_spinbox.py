@@ -30,7 +30,15 @@ class LabeledSliderSpinBox(QWidget):
         self.spinbox.setRange(lo,hi)
         self.slider.setMinimum(lo)
         self.slider.setMaximum(hi)
-    
+
+    def setMinimum(self, val: int) -> None:
+        self.spinbox.setMinimum(val)
+        self.slider.setMinimum(val)
+
+    def setMaximum(self, val: int) -> None:
+        self.spinbox.setMaximum(val)
+        self.slider.setMaximum(val)
+
     def setValue(self, val: int) -> None:
         self.spinbox.setValue(val)
         self.slider.setValue(val)
