@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QSlider, QDoubleSpinBox, QHBoxLayout
 from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication
 
 class LabeledSliderDoubleSpinBox(QWidget):
 
@@ -75,3 +76,10 @@ class LabeledSliderDoubleSpinBox(QWidget):
 
     def value(self) -> float:
         return self.spinbox.value()
+
+if __name__ == "__main__":
+
+    app = QApplication([])
+    widget = LabeledSliderDoubleSpinBox()
+    widget.show()
+    app.exec_()

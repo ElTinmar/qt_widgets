@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QHBoxLayout
+from PyQt5.QtWidgets import QApplication
 
 class LabeledComboBox(QWidget):
 
@@ -45,3 +46,10 @@ class LabeledComboBox(QWidget):
     
     def currentText(self) -> str:
         return self.combobox.currentText()
+
+if __name__ == "__main__":
+
+    app = QApplication([])
+    widget = LabeledComboBox()
+    widget.show()
+    app.exec_()

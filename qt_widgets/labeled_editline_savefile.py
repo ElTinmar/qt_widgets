@@ -1,6 +1,8 @@
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QWidget, QFileDialog, QLineEdit, QPushButton, QLabel, QSpinBox, QHBoxLayout
+from PyQt5.QtWidgets import QWidget, QFileDialog, QPushButton, QLabel, QHBoxLayout
 from pathlib import Path
+from PyQt5.QtWidgets import QApplication
+from .file_drop_editline import FileDropLineEdit
 
 class FileSaveLabeledEditButton(QWidget):
 
@@ -16,7 +18,7 @@ class FileSaveLabeledEditButton(QWidget):
         self.label = QLabel()
         self.label.setText('Save file:')
         
-        self.line_edit = QLineEdit()
+        self.line_edit = FileDropLineEdit()
         self.line_edit.setMinimumWidth(300)
 
         self.button = QPushButton()
@@ -37,23 +39,31 @@ class FileSaveLabeledEditButton(QWidget):
         self.line_edit.setText(filename)
 
     def open_dialog(self):
-        file_name = QFileDialog.getSaveFileName(self, 'Save file', self.default_file)
-        self.line_edit.setText(file_name[0])
+        file_path, _ = QFileDialog.getSaveFileName(self, 'Save file', self.default_file)
+        if file_path:
+            self.line_edit.setText(file_path)
 
     def setLabel(self, text: str) -> None:
         self.label.setText(text)
 
     def setEnabled(self, enabled:bool) -> None:
-        return self.button.setEnabled(enabled)
+        self.line_edit.setEnabled(enabled)
+        self.label.setEnabled(enabled)
+        self.button.setEnabled(enabled)
 
     @property
     def textChanged(self):
         return self.line_edit.textChanged 
 
-    def text(self) -> int:
+    def text(self) -> str:
         return self.line_edit.text()
     
     def setText(self, text: str) -> None:
         self.line_edit.setText(text)
 
-        
+if __name__ == "__main__":
+
+    app = QApplication([])
+    widget = FileSaveLabeledEditButton()
+    widget.show()
+    app.exec_()

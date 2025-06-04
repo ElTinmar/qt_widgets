@@ -1,6 +1,8 @@
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QWidget, QFileDialog, QLineEdit, QPushButton, QLabel, QSpinBox, QHBoxLayout
+from PyQt5.QtWidgets import QWidget, QFileDialog, QPushButton, QLabel, QHBoxLayout
+from .file_drop_editline import FileDropLineEdit
 from pathlib import Path
+from PyQt5.QtWidgets import QApplication
 
 class FileOpenLabeledEditButton(QWidget):
 
@@ -16,8 +18,9 @@ class FileOpenLabeledEditButton(QWidget):
         self.label = QLabel()
         self.label.setText('Open file:')
         
-        self.line_edit = QLineEdit()
+        self.line_edit = FileDropLineEdit()
         self.line_edit.setMinimumWidth(300)
+        self.line_edit.editingFinished.connect(self.validate_input)
 
         self.button = QPushButton()
         folder_icon = QIcon(self.LOAD_ICON)
@@ -37,24 +40,42 @@ class FileOpenLabeledEditButton(QWidget):
         self.line_edit.setText(filename)
 
     def open_dialog(self):
-        file_name = QFileDialog.getOpenFileName(self, 'Select file')
-        self.line_edit.setText(file_name[0])
+        file_path, _ = QFileDialog.getOpenFileName(self, 'Select file')
+        if file_path:
+            self.line_edit.setText(file_path)
+            self.validate_input()
 
     def setLabel(self, text: str) -> None:
         self.label.setText(text)
 
     def setText(self, text: str) -> None:
         self.line_edit.setText(text)
+        self.validate_input()
 
     def text(self) -> str:
         return self.line_edit.text()
 
     def setEnabled(self, enabled:bool) -> None:
-        return self.button.setEnabled(enabled)
-    
+        self.line_edit.setEnabled(enabled)
+        self.label.setEnabled(enabled)
+        self.button.setEnabled(enabled)
+
+    def validate_input(self):
+        path = Path(self.line_edit.text())
+        if path.is_file():
+            self.line_edit.setToolTip("")
+            self.line_edit.setStyleSheet("")
+        else:
+            self.line_edit.setToolTip("File does not exist.")
+            self.line_edit.setStyleSheet("border: 1px solid red;")
+                
     @property
     def textChanged(self):
         return self.line_edit.textChanged 
 
-    def text(self) -> int:
-        return self.line_edit.text()
+if __name__ == "__main__":
+
+    app = QApplication([])
+    widget = FileOpenLabeledEditButton()
+    widget.show()
+    app.exec_()

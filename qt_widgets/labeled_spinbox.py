@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QSpinBox, QHBoxLayout
+from PyQt5.QtWidgets import QApplication
 
 class LabeledSpinBox(QWidget):
 
@@ -66,3 +67,10 @@ class LabeledSpinBox(QWidget):
 
     def value(self) -> int:
         return self.spinbox.value()
+
+if __name__ == "__main__":
+
+    app = QApplication([])
+    widget = LabeledSpinBox()
+    widget.show()
+    app.exec_()
