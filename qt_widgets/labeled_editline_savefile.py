@@ -16,7 +16,7 @@ class FileSaveLabeledEditButton(QWidget):
         self.default_file = ''
 
         self.label = QLabel()
-        self.label.setText('Save file:')
+        self.label.setText('Save to:')
         
         self.line_edit = FileDropLineEdit()
         self.line_edit.setMinimumWidth(300)
