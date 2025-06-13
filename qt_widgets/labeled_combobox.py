@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QHBoxLayout
 from PyQt5.QtWidgets import QApplication
+from typing import Iterable
 
 class LabeledComboBox(QWidget):
 
@@ -20,6 +21,10 @@ class LabeledComboBox(QWidget):
 
     def addItem(self, item: str) -> None:
         self.combobox.addItem(item)
+
+    def addItems(self, items: Iterable) -> None:
+        for item in items:
+            self.combobox.addItem(item)
 
     def setEnabled(self, enabled:bool) -> None:
         self.combobox.setEnabled(enabled)
