@@ -21,7 +21,6 @@ class LabeledSliderSpinBox(QWidget):
         self.setLayout(layout)
 
     def slider_released(self):
-        print('slider released')
         self.spinbox.setValue(self.slider.value())
 
     def slider_change(self):
