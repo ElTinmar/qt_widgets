@@ -7,7 +7,7 @@ class LabeledSliderSpinBox(QWidget):
         super().__init__(*args, **kwargs)
         self.label = QLabel()
         self.slider = QSlider(Qt.Horizontal)
-        self.slider.valueChanged.connect(self.slider_change)
+        self.slider.sliderReleased.connect(self.slider_change)
         self.spinbox = QSpinBox()
         self.spinbox.setKeyboardTracking(False)
         self.spinbox.valueChanged.connect(self.spinbox_change)
