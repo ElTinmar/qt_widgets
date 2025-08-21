@@ -3,11 +3,12 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication
 
 class LabeledSliderSpinBox(QWidget):
+
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.label = QLabel()
         self.slider = QSlider(Qt.Horizontal)
-        self.slider.valueChanged.connect(self.slider_change)
+        self.slider.sliderMoved.connect(self.slider_change)
         self.slider.sliderReleased.connect(self.slider_released)
         self.spinbox = QSpinBox()
         self.spinbox.setKeyboardTracking(False)
@@ -20,6 +21,7 @@ class LabeledSliderSpinBox(QWidget):
         self.setLayout(layout)
 
     def slider_released(self):
+        print('slider released')
         self.spinbox.setValue(self.slider.value())
 
     def slider_change(self):
@@ -78,7 +80,11 @@ class LabeledSliderSpinBox(QWidget):
 
 if __name__ == "__main__":
 
+    def printslot():
+        print('triggered')
+
     app = QApplication([])
     widget = LabeledSliderSpinBox()
+    widget.valueChanged.connect(printslot)
     widget.show()
     app.exec_()
