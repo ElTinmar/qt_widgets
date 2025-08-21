@@ -7,7 +7,8 @@ class LabeledSliderSpinBox(QWidget):
         super().__init__(*args, **kwargs)
         self.label = QLabel()
         self.slider = QSlider(Qt.Horizontal)
-        self.slider.sliderReleased.connect(self.slider_change)
+        self.slider.valueChanged.connect(self.slider_change)
+        self.slider.sliderReleased.connect(self.slider_released)
         self.spinbox = QSpinBox()
         self.spinbox.setKeyboardTracking(False)
         self.spinbox.valueChanged.connect(self.spinbox_change)
@@ -18,8 +19,13 @@ class LabeledSliderSpinBox(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
 
-    def slider_change(self):
+    def slider_released(self):
         self.spinbox.setValue(self.slider.value())
+
+    def slider_change(self):
+        self.spinbox.blockSignals(True)
+        self.spinbox.setValue(self.slider.value())
+        self.spinbox.blockSignals(False)
 
     def spinbox_change(self):
         self.slider.blockSignals(True)
