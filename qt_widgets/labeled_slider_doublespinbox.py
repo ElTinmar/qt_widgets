@@ -7,6 +7,7 @@ class LabeledSliderDoubleSpinBox(QWidget):
     slider_precision: int = 100
     valueChanged = pyqtSignal(float)
     sliderPressed = pyqtSignal()
+    textEdited = pyqtSignal()
 
     def __init__(self, *args, **kwargs) -> None:
 
@@ -22,7 +23,8 @@ class LabeledSliderDoubleSpinBox(QWidget):
         self.spinbox = QDoubleSpinBox()
         self.spinbox.setKeyboardTracking(False)
         self.spinbox.valueChanged.connect(self.spinbox_change)
-        
+        self.spinbox.lineEdit().textEdited.connect(self.textEdited)
+
         layout = QHBoxLayout()
         layout.addWidget(self.label)
         layout.addWidget(self.slider)
@@ -95,5 +97,10 @@ if __name__ == "__main__":
 
     app = QApplication([])
     widget = LabeledSliderDoubleSpinBox()
+
+    widget.sliderPressed.connect(lambda: print('slider pressed'))
+    widget.valueChanged.connect(lambda: print('value changed'))
+    widget.textEdited.connect(lambda: print('text edited'))
+
     widget.show()
     app.exec_()
