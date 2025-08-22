@@ -1,20 +1,28 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QSlider, QDoubleSpinBox, QHBoxLayout
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtWidgets import QApplication
 
 class LabeledSliderDoubleSpinBox(QWidget):
 
     slider_precision: int = 100
+    valueChanged = pyqtSignal(float)
+    sliderPressed = pyqtSignal()
 
     def __init__(self, *args, **kwargs) -> None:
+
         super().__init__(*args, **kwargs)
+
         self.label = QLabel()
+
         self.slider = QSlider(Qt.Horizontal)
+        self.slider.sliderPressed.connect(self.sliderPressed)
         self.slider.sliderMoved.connect(self.slider_change)
         self.slider.sliderReleased.connect(self.slider_released)
+
         self.spinbox = QDoubleSpinBox()
         self.spinbox.setKeyboardTracking(False)
         self.spinbox.valueChanged.connect(self.spinbox_change)
+        
         layout = QHBoxLayout()
         layout.addWidget(self.label)
         layout.addWidget(self.slider)
@@ -37,6 +45,7 @@ class LabeledSliderDoubleSpinBox(QWidget):
         self.slider.blockSignals(True)
         self.slider.setValue(value)
         self.slider.blockSignals(False)
+        self.valueChanged.emit(self.spinbox.value())
 
     def setText(self, text: str) -> None:
         self.label.setText(text)
@@ -78,10 +87,6 @@ class LabeledSliderDoubleSpinBox(QWidget):
     def blockSignals(self, block: bool) -> None:
         self.slider.blockSignals(block)
         self.spinbox.blockSignals(block)
-
-    @property
-    def valueChanged(self):
-        return self.spinbox.valueChanged 
 
     def value(self) -> float:
         return self.spinbox.value()
