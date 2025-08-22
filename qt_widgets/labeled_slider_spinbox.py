@@ -1,18 +1,29 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QSlider, QSpinBox, QHBoxLayout
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtWidgets import QApplication
 
 class LabeledSliderSpinBox(QWidget):
 
+    valueChanged = pyqtSignal(int)
+    sliderPressed = pyqtSignal()
+    textEdited = pyqtSignal()
+
     def __init__(self, *args, **kwargs) -> None:
+
         super().__init__(*args, **kwargs)
+
         self.label = QLabel()
+
         self.slider = QSlider(Qt.Horizontal)
+        self.slider.sliderPressed.connect(self.sliderPressed)
         self.slider.sliderMoved.connect(self.slider_change)
         self.slider.sliderReleased.connect(self.slider_released)
+
         self.spinbox = QSpinBox()
         self.spinbox.setKeyboardTracking(False)
         self.spinbox.valueChanged.connect(self.spinbox_change)
+        self.spinbox.lineEdit().textEdited.connect(self.textEdited)
+
         layout = QHBoxLayout()
         layout.addWidget(self.label)
         layout.addWidget(self.slider)
@@ -32,6 +43,7 @@ class LabeledSliderSpinBox(QWidget):
         self.slider.blockSignals(True)
         self.slider.setValue(self.spinbox.value())
         self.slider.blockSignals(False)
+        self.valueChanged.emit(self.spinbox.value())
         
     def setText(self, text: str) -> None:
         self.label.setText(text)
@@ -69,21 +81,18 @@ class LabeledSliderSpinBox(QWidget):
 
     def stepBy(self, steps: int):
         return self.spinbox.stepBy(steps)
-                
-    @property
-    def valueChanged(self):
-        return self.spinbox.valueChanged 
 
     def value(self) -> int:
         return self.spinbox.value()
 
 if __name__ == "__main__":
 
-    def printslot():
-        print('triggered')
-
     app = QApplication([])
     widget = LabeledSliderSpinBox()
-    widget.valueChanged.connect(printslot)
+
+    widget.sliderPressed.connect(lambda: print('slider pressed'))
+    widget.valueChanged.connect(lambda: print('value changed'))
+    widget.textEdited.connect(lambda: print('text edited'))
+
     widget.show()
     app.exec_()
