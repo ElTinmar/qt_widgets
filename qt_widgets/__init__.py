@@ -11,3 +11,4 @@ from .labeled_slider_spinbox import *
 from .labeled_slider_doublespinbox import *
 from .labeled_combobox import *
 from .ndarray_to_qpixmap import *
+from .code_editor import CodeEditor
