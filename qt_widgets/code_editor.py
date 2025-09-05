@@ -3,7 +3,7 @@ import builtins
 
 from PyQt5.QtWidgets import QWidget, QPlainTextEdit, QVBoxLayout, QFileDialog, QMessageBox, QPushButton, QHBoxLayout
 from PyQt5.QtGui import QSyntaxHighlighter, QTextCharFormat, QColor, QFont, QPalette
-from PyQt5.QtCore import QRegExp, Qt
+from PyQt5.QtCore import QRegExp, Qt, pyqtSignal
 
 
 class PythonHighlighter(QSyntaxHighlighter):
@@ -88,11 +88,14 @@ class CodeEdit(QPlainTextEdit):
 
 class CodeEditor(QWidget):
 
+    textChanged = pyqtSignal()
+
     def __init__(self, parent=None):
 
         super().__init__(parent)
 
         self.editor = CodeEdit()
+        self.editor.textChanged.connect(self.textChanged)
         self.highlighter = PythonHighlighter(self.editor.document())
 
         self.load_button = QPushButton('Load')
