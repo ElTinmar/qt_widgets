@@ -1,6 +1,6 @@
 __all__ = ["labeled_doublespinbox", "labeled_editline_openfile", "labeled_editline_savefile",
            "labeled_slider_spinbox", "labeled_slider_doublespinbox", "labeled_spinbox", 
-           "labeled_combobox", "ndarray_to_qpixmap"]
+           "labeled_combobox", "ndarray_to_qpixmap", "code_editor"]
 
 from .labeled_spinbox import *
 from .labeled_doublespinbox import *
