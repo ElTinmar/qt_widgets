@@ -44,6 +44,11 @@ class LabeledComboBox(QWidget):
     def setCurrentText(self, text: str):
         self.combobox.setCurrentText(text)
 
+    def setCurrentData(self, data: object, role=Qt.UserRole):
+        for i in range(self.combobox.count()):
+            if self.combobox.itemData(i, role) == data:
+                self.combobox.setCurrentIndex(i)
+
     def clear(self):
         self.combobox.clear()
 
