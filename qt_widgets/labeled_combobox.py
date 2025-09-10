@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QHBoxLayout
-from PyQt5.QtWidgets import QApplication
-from typing import Iterable
+from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QHBoxLayout, QApplication
+from PyQt5.QtCore import Qt
+from typing import Iterable, Any
 
 class LabeledComboBox(QWidget):
 
@@ -19,7 +19,7 @@ class LabeledComboBox(QWidget):
     def setText(self, text: str) -> None:
         self.label.setText(text)
 
-    def addItem(self, item: str, userData = None) -> None:
+    def addItem(self, item: str, userData: Any = None) -> None:
         self.combobox.addItem(item, userData=userData)
 
     def addItems(self, items: Iterable) -> None:
@@ -46,6 +46,9 @@ class LabeledComboBox(QWidget):
     def currentTextChanged(self):
         return self.combobox.currentTextChanged 
     
+    def currentData(self, role = Qt.UserRole) -> Any:
+        return self.combobox.currentData(role)
+
     def currentIndex(self) -> int:
         return self.combobox.currentIndex()
     
