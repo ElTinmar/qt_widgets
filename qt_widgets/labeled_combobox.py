@@ -4,7 +4,7 @@ from typing import Iterable, Any
 
 class LabeledComboBox(QWidget):
 
-    currentDataChanged = pyqtSignal(Any)
+    currentDataChanged = pyqtSignal(object)
     currentIndexChanged = pyqtSignal(int)
     currentTextChanged = pyqtSignal(str)
 
