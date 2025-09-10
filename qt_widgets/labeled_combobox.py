@@ -19,8 +19,8 @@ class LabeledComboBox(QWidget):
     def setText(self, text: str) -> None:
         self.label.setText(text)
 
-    def addItem(self, item: str) -> None:
-        self.combobox.addItem(item)
+    def addItem(self, item: str, userData = None) -> None:
+        self.combobox.addItem(item, userData=userData)
 
     def addItems(self, items: Iterable) -> None:
         for item in items:
