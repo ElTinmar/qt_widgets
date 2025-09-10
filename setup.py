@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name='qt_widgets',
     author='Martin Privat',
-    version='0.3.30',
+    version='0.3.31',
     packages=['qt_widgets','qt_widgets.tests'],
     license='Creative Commons Attribution-Noncommercial-Share Alike license',
     description='custom qt widgets and tools',

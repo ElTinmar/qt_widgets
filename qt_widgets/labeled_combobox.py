@@ -1,8 +1,12 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QHBoxLayout, QApplication
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, pyqtSignal
 from typing import Iterable, Any
 
 class LabeledComboBox(QWidget):
+
+    currentDataChanged = pyqtSignal(Any)
+    currentIndexChanged = pyqtSignal(int)
+    currentTextChanged = pyqtSignal(str)
 
     def __init__(self, *args, **kwargs) -> None:
     
@@ -10,6 +14,8 @@ class LabeledComboBox(QWidget):
     
         self.label = QLabel()
         self.combobox = QComboBox()
+        self.combobox.currentIndexChanged.connect(self.on_change)
+
         layout = QHBoxLayout()
         layout.addWidget(self.label)
         layout.addWidget(self.combobox)
@@ -20,8 +26,11 @@ class LabeledComboBox(QWidget):
         self.label.setText(text)
 
     def addItem(self, item: str, userData: Any = None) -> None:
-        self.combobox.addItem(item, userData=userData)
-
+        if userData is None:
+            self.combobox.addItem(item)
+        else:
+            self.combobox.addItem(item, userData)
+            
     def addItems(self, items: Iterable) -> None:
         for item in items:
             self.combobox.addItem(item)
@@ -38,13 +47,13 @@ class LabeledComboBox(QWidget):
     def clear(self):
         self.combobox.clear()
 
-    @property
-    def currentIndexChanged(self):
-        return self.combobox.currentIndexChanged 
-
-    @property
-    def currentTextChanged(self):
-        return self.combobox.currentTextChanged 
+    def on_change(self):
+        index = self.combobox.currentIndex()
+        text = self.combobox.currentText()
+        data = self.combobox.currentData()
+        self.currentDataChanged.emit(data)
+        self.currentIndexChanged.emit(index)
+        self.currentTextChanged.emit(text)
     
     def currentData(self, role = Qt.UserRole) -> Any:
         return self.combobox.currentData(role)
