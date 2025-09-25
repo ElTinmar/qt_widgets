@@ -2,32 +2,39 @@ from PyQt5.QtWidgets import QGraphicsView, QGraphicsScene, QApplication, QGraphi
 
 class ZoomableGraphicsView(QGraphicsView):
 
-    def __init__(self, *args, **kwargs):
+    zoom_in_factor: float = 1.25
+    zoom_in_limit: float = 12
+    zoom_out_limit: float = 0 
+
+    def __init__(
+            self,
+            *args, 
+            **kwargs
+        ):
     
         super().__init__(*args, **kwargs)
-        self._zoom = 0
+        self._zoom: int = 0
         self.setDragMode(QGraphicsView.ScrollHandDrag)
         self.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
 
     def wheelEvent(self, event):
-    
-        zoom_in_factor = 1.25
-        zoom_out_factor = 1 / zoom_in_factor
+
+        zoom_out_factor = 1 / self.zoom_in_factor
 
         if event.angleDelta().y() > 0:
-            zoom_factor = zoom_in_factor
+            zoom_factor = self.zoom_in_factor
+            if self._zoom >= self.zoom_in_limit:
+                return
             self._zoom += 1
+
         else:
             zoom_factor = zoom_out_factor
+            if self._zoom <= self.zoom_out_limit:
+                return
             self._zoom -= 1
-
-        if self._zoom < -10:  # optional zoom out limit
-            self._zoom = -10
-            return
 
         self.scale(zoom_factor, zoom_factor)
 
-    
 
 if __name__ == "__main__":
 
