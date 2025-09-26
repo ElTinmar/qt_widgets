@@ -4,7 +4,7 @@ class ZoomableGraphicsView(QGraphicsView):
 
     zoom_in_factor: float = 1.25
     zoom_in_limit: float = 12
-    zoom_out_limit: float = -10 
+    zoom_out_limit: float = 0 
 
     def __init__(
             self,
