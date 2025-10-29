@@ -81,6 +81,7 @@ def waitKey(ms: int = 0) -> int:
 
     def on_key(ev):
         key.append(ev.key())
+        QtImageWindows.app.quit()
 
     for win in QtImageWindows.windows.values():
         win["view"].keyPressEvent = on_key
