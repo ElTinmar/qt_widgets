@@ -1,4 +1,10 @@
 from PyQt5.QtWidgets import QGraphicsView, QGraphicsScene, QApplication, QGraphicsPixmapItem
+from PyQt5.QtCore import QTimer
+import numpy as np
+import sys
+import numpy as np
+import sys
+from .ndarray_to_qpixmap import NDarray_to_QPixmap
 
 class ZoomableGraphicsView(QGraphicsView):
 
@@ -35,19 +41,78 @@ class ZoomableGraphicsView(QGraphicsView):
 
         self.scale(zoom_factor, zoom_factor)
 
+class QtImageWindows:
+    windows = {}
+    app = None
+
+def imshow(win_name: str, frame: np.ndarray):
+
+    if QtImageWindows.app is None:
+        QtImageWindows.app = QApplication.instance() or QApplication(sys.argv)
+
+    if win_name not in QtImageWindows.windows:
+        scene = QGraphicsScene()
+        image_item = QGraphicsPixmapItem()
+        scene.addItem(image_item)
+
+        view = ZoomableGraphicsView(scene)
+        view.setWindowTitle(win_name)
+        view.resize(frame.shape[1], frame.shape[0])
+        view.show()
+
+        QtImageWindows.windows[win_name] = {
+            "view": view,
+            "scene": scene,
+            "image_item": image_item
+        }
+
+    win = QtImageWindows.windows[win_name]
+    win["image_item"].setPixmap(NDarray_to_QPixmap(frame))
+    QtImageWindows.app.processEvents()
+
+def waitKey(ms: int = 0) -> int:
+
+    if QtImageWindows.app is None:
+        QtImageWindows.app = QApplication.instance() or QApplication(sys.argv)
+
+    key = []
+
+    def on_key(ev):
+        key.append(ev.key())
+
+    for win in QtImageWindows.windows.values():
+        win["view"].keyPressEvent = on_key
+
+    if ms == 0:
+        while not key:
+            QtImageWindows.app.processEvents()
+    else:
+        timer = QTimer()
+        timer.timeout.connect(QtImageWindows.app.quit)
+        timer.start(ms)
+        QtImageWindows.app.exec_()
+        timer.stop()
+
+    return key[0] if key else -1
+
+            
+def destroyAllWindows():
+    for win in list(QtImageWindows.windows.values()):
+        win["view"].close()
+    QtImageWindows.windows.clear()
 
 if __name__ == "__main__":
 
-    import numpy as np
-    from ndarray_to_qpixmap import NDarray_to_QPixmap
+    for i in range(100):
+        frame = (255 * np.random.rand(512, 512, 3)).astype(np.uint8)
+        imshow("Random Feed", frame)
+        k = waitKey(30)
+        if k != -1:
+            print(f"Key pressed: {k}")
 
-    app = QApplication([])
-    
-    scene = QGraphicsScene()
-    image_item = QGraphicsPixmapItem()
-    image_item.setPixmap(NDarray_to_QPixmap(255*np.random.rand(512,512,3)))
-    scene.addItem(image_item)
+        imshow("Random Feed2", frame//2)
+        k = waitKey(30)
+        if k != -1:
+            print(f"Key pressed: {k}")
 
-    widget = ZoomableGraphicsView(scene)
-    widget.show()
-    app.exec_()
+
