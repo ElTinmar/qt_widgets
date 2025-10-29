@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QGraphicsView, QGraphicsScene, QApplication, QGraphicsPixmapItem
-from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import QTimer, Qt
 import numpy as np
 import sys
 import numpy as np
@@ -58,6 +58,8 @@ def imshow(win_name: str, frame: np.ndarray):
         view = ZoomableGraphicsView(scene)
         view.setWindowTitle(win_name)
         view.resize(frame.shape[1], frame.shape[0])
+        view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         view.show()
 
         QtImageWindows.windows[win_name] = {
