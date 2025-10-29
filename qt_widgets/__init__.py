@@ -13,4 +13,4 @@ from .labeled_combobox import *
 from .ndarray_to_qpixmap import *
 from .code_editor import CodeEditor
 from .zoomable_graphicsview import ZoomableGraphicsView
-from .busy_overlay import BusyOverlay
+from .busy_overlay import BusyOverlay, Spinner
