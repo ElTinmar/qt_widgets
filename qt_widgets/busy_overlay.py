@@ -4,14 +4,17 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout
 
 class Spinner(QWidget):
 
-    def __init__(self, parent=None, radius=20, line_width=4, speed=50):
+    def __init__(self, parent=None, radius=20, line_width=4, speed=50, color='white'):
         super().__init__(parent)
         self.angle = 0
         self.radius = radius
         self.line_width = line_width
+        self.color = color
+
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.rotate)
         self.timer.start(speed)
+        
         self.setFixedSize(radius * 2 + line_width * 2, radius * 2 + line_width * 2)
 
     def rotate(self):
@@ -21,7 +24,7 @@ class Spinner(QWidget):
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
-        pen = QPen(QColor("white"), self.line_width)
+        pen = QPen(QColor(self.color), self.line_width)
         painter.setPen(pen)
         painter.translate(self.width() / 2, self.height() / 2)
         painter.rotate(self.angle)
@@ -31,12 +34,9 @@ class BusyOverlay(QWidget):
 
     def __init__(self, parent):
         super().__init__(parent)
-        self.setStyleSheet("background: rgba(0, 0, 0, 128);")
         self.setAttribute(Qt.WA_TransparentForMouseEvents, False)
-
-        layout = QVBoxLayout(self)
-        layout.setAlignment(Qt.AlignCenter)
         self.spinner = Spinner(self)
+        layout = QVBoxLayout(self)
         layout.addWidget(self.spinner, alignment=Qt.AlignCenter)
         self.hide()
 
