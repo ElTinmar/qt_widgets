@@ -8,5 +8,11 @@ from .labeled_slider_doublespinbox import *
 from .labeled_combobox import *
 from .ndarray_to_qpixmap import *
 from .code_editor import CodeEditor
-from .zoomable_graphicsview import ZoomableGraphicsView
+from .zoomable_graphicsview import (
+    ZoomableGraphicsView, 
+    imshow, 
+    waitKey, 
+    destroyAllWindows, 
+    destroyWindow
+)
 from .busy_overlay import BusyOverlay, Spinner
