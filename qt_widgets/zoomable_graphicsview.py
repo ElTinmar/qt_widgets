@@ -96,7 +96,6 @@ def waitKey(ms: int = 0) -> int:
         timer.stop()
 
     return key[0] if key else -1
-
             
 def destroyAllWindows():
     for win in list(QtImageWindows.windows.values()):
