@@ -101,6 +101,12 @@ def destroyAllWindows():
         win["view"].close()
     QtImageWindows.windows.clear()
 
+def destroyWindow(win_name: str):
+    win = QtImageWindows.windows.get(win_name)
+    if win:
+        win["view"].close()  
+        del QtImageWindows.windows[win_name]
+
 if __name__ == "__main__":
 
     for i in range(100):
