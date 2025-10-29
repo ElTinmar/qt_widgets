@@ -1,6 +1,6 @@
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtGui import QPainter, QColor, QPen
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QLabel
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout
 
 class Spinner(QWidget):
 
@@ -27,18 +27,23 @@ class Spinner(QWidget):
         painter.rotate(self.angle)
         painter.drawArc(-self.radius, -self.radius, 2*self.radius, 2*self.radius, 0, 270*16)
 
-
 class BusyOverlay(QWidget):
 
     def __init__(self, parent):
         super().__init__(parent)
         self.setStyleSheet("background: rgba(0, 0, 0, 128);")
         self.setAttribute(Qt.WA_TransparentForMouseEvents, False)
+
         layout = QVBoxLayout(self)
         layout.setAlignment(Qt.AlignCenter)
         self.spinner = Spinner(self)
         layout.addWidget(self.spinner, alignment=Qt.AlignCenter)
         self.hide()
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.fillRect(self.rect(), QColor(0, 0, 0, 128))
+        super().paintEvent(event)
 
     def show_overlay(self):
         self.resize(self.parent().size())
