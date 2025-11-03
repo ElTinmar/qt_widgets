@@ -16,3 +16,4 @@ from .zoomable_graphicsview import (
     destroyWindow
 )
 from .busy_overlay import BusyOverlay, Spinner
+from .worker_qthread import WorkerThread
