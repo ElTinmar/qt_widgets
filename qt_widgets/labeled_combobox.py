@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QHBoxLayout, QApplication
-from PyQt5.QtCore import Qt, pyqtSignal
+from qtpy.QtWidgets import QWidget, QLabel, QComboBox, QHBoxLayout, QApplication
+from qtpy.QtCore import Qt, Signal as pyqtSignal
 from typing import Iterable, Any
 
 class LabeledComboBox(QWidget):
@@ -9,7 +9,6 @@ class LabeledComboBox(QWidget):
     currentTextChanged = pyqtSignal(str)
 
     def __init__(self, *args, **kwargs) -> None:
-    
         super().__init__(*args, **kwargs)
     
         self.label = QLabel()
@@ -26,16 +25,12 @@ class LabeledComboBox(QWidget):
         self.label.setText(text)
 
     def addItem(self, item: str, userData: Any = None) -> None:
-        if userData is None:
-            self.combobox.addItem(item)
-        else:
-            self.combobox.addItem(item, userData)
+        self.combobox.addItem(item, userData)
             
     def addItems(self, items: Iterable) -> None:
-        for item in items:
-            self.combobox.addItem(item)
+        self.combobox.addItems(list(items))
 
-    def setEnabled(self, enabled:bool) -> None:
+    def setEnabled(self, enabled: bool) -> None:
         self.combobox.setEnabled(enabled)
     
     def setCurrentIndex(self, index: int):
@@ -44,7 +39,7 @@ class LabeledComboBox(QWidget):
     def setCurrentText(self, text: str):
         self.combobox.setCurrentText(text)
 
-    def setCurrentData(self, data: object, role=Qt.UserRole):
+    def setCurrentData(self, data: Any, role=Qt.UserRole):
         for i in range(self.combobox.count()):
             if self.combobox.itemData(i, role) == data:
                 self.combobox.setCurrentIndex(i)
@@ -60,7 +55,7 @@ class LabeledComboBox(QWidget):
         self.currentIndexChanged.emit(index)
         self.currentTextChanged.emit(text)
     
-    def currentData(self, role = Qt.UserRole) -> Any:
+    def currentData(self, role=Qt.UserRole) -> Any:
         return self.combobox.currentData(role)
 
     def currentIndex(self) -> int:
@@ -70,8 +65,9 @@ class LabeledComboBox(QWidget):
         return self.combobox.currentText()
 
 if __name__ == "__main__":
-
     app = QApplication([])
     widget = LabeledComboBox()
+    widget.setText("Options: ")
+    widget.addItems(["Alpha", "Beta", "Gamma"])
     widget.show()
-    app.exec_()
+    app.exec()

@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QLineEdit as QLineEditBase
-from PyQt5.QtWidgets import QApplication
+from qtpy.QtWidgets import QLineEdit as QLineEditBase
+from qtpy.QtWidgets import QApplication
 
 class FileDropLineEdit(QLineEditBase):
 
@@ -22,8 +22,7 @@ class FileDropLineEdit(QLineEditBase):
                 self.editingFinished.emit()
 
 if __name__ == "__main__":
-
     app = QApplication([])
     widget = FileDropLineEdit()
     widget.show()
-    app.exec_()
+    app.exec()

@@ -1,7 +1,5 @@
-from PyQt5.QtWidgets import QGraphicsView, QGraphicsScene, QApplication, QGraphicsPixmapItem
-from PyQt5.QtCore import QTimer, Qt
-import numpy as np
-import sys
+from qtpy.QtWidgets import QGraphicsView, QGraphicsScene, QApplication, QGraphicsPixmapItem
+from qtpy.QtCore import QTimer, Qt, QEventLoop
 import numpy as np
 import sys
 from .ndarray_to_qpixmap import NDarray_to_QPixmap
@@ -12,19 +10,13 @@ class ZoomableGraphicsView(QGraphicsView):
     zoom_in_limit: float = 12
     zoom_out_limit: float = 0 
 
-    def __init__(
-            self,
-            *args, 
-            **kwargs
-        ):
-    
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._zoom: int = 0
         self.setDragMode(QGraphicsView.ScrollHandDrag)
         self.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
 
     def wheelEvent(self, event):
-
         zoom_out_factor = 1 / self.zoom_in_factor
 
         if event.angleDelta().y() > 0:
@@ -32,7 +24,6 @@ class ZoomableGraphicsView(QGraphicsView):
             if self._zoom >= self.zoom_in_limit:
                 return
             self._zoom += 1
-
         else:
             zoom_factor = zoom_out_factor
             if self._zoom <= self.zoom_out_limit:
@@ -46,8 +37,8 @@ class QtImageWindows:
     app = None
 
 def imshow(win_name: str, frame: np.ndarray):
-
     if QtImageWindows.app is None:
+        # Check for existing instance or create new one
         QtImageWindows.app = QApplication.instance() or QApplication(sys.argv)
 
     if win_name not in QtImageWindows.windows:
@@ -58,42 +49,48 @@ def imshow(win_name: str, frame: np.ndarray):
         view = ZoomableGraphicsView(scene)
         view.setWindowTitle(win_name)
         view.resize(frame.shape[1], frame.shape[0])
+        
         view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        view.show()
-
+        
         QtImageWindows.windows[win_name] = {
             "view": view,
             "scene": scene,
             "image_item": image_item
         }
 
+        view.show()
+
     win = QtImageWindows.windows[win_name]
     win["image_item"].setPixmap(NDarray_to_QPixmap(frame))
     QtImageWindows.app.processEvents()
 
 def waitKey(ms: int = 0) -> int:
-
     if QtImageWindows.app is None:
         QtImageWindows.app = QApplication.instance() or QApplication(sys.argv)
 
     key = []
+    # Create a local event loop for this specific waitKey call
+    loop = QEventLoop()
 
     def on_key(ev):
         key.append(ev.key())
-        QtImageWindows.app.quit()
+        loop.quit() # Quit the LOCAL loop, not the whole App
 
+    # Re-assign the key event handler to all open windows
     for win in QtImageWindows.windows.values():
         win["view"].keyPressEvent = on_key
 
     if ms == 0:
-        while not key:
-            QtImageWindows.app.processEvents()
+        # Loop forever until a key is pressed
+        loop.exec()
     else:
+        # Loop until the timer hits OR a key is pressed
         timer = QTimer()
-        timer.timeout.connect(QtImageWindows.app.quit)
+        timer.setSingleShot(True)
+        timer.timeout.connect(loop.quit)
         timer.start(ms)
-        QtImageWindows.app.exec_()
+        loop.exec()
         timer.stop()
 
     return key[0] if key else -1
@@ -110,7 +107,6 @@ def destroyWindow(win_name: str):
         del QtImageWindows.windows[win_name]
 
 if __name__ == "__main__":
-
     for i in range(100):
         frame = (255 * np.random.rand(512, 512, 3)).astype(np.uint8)
         imshow("Random Feed", frame)
@@ -118,9 +114,7 @@ if __name__ == "__main__":
         if k != -1:
             print(f"Key pressed: {k}")
 
-        imshow("Random Feed2", frame//2)
+        imshow("Random Feed2", frame // 2)
         k = waitKey(30)
         if k != -1:
             print(f"Key pressed: {k}")
-
-

@@ -1,5 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QLineEdit, QLabel, QHBoxLayout
-from PyQt5.QtWidgets import QApplication
+from qtpy.QtWidgets import QWidget, QLineEdit, QLabel, QHBoxLayout, QApplication
 
 class LabeledEditLine(QWidget):
     def __init__(self, *args, **kwargs) -> None:
@@ -30,12 +29,10 @@ class LabeledEditLine(QWidget):
     def textChanged(self):
         return self.line_edit.textChanged 
 
-    def text(self) -> str:
-        return self.line_edit.text()
-
 if __name__ == "__main__":
-
     app = QApplication([])
     widget = LabeledEditLine()
+    widget.setLabel("User Name:")
+    widget.setText("John Doe")
     widget.show()
-    app.exec_()
+    app.exec()

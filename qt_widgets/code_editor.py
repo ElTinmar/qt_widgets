@@ -1,40 +1,37 @@
 import keyword
 import builtins
-
-from PyQt5.QtWidgets import QWidget, QPlainTextEdit, QVBoxLayout, QFileDialog, QMessageBox, QPushButton, QHBoxLayout
-from PyQt5.QtGui import QSyntaxHighlighter, QTextCharFormat, QColor, QFont, QPalette
-from PyQt5.QtCore import QRegExp, Qt, pyqtSignal
-
+from qtpy.QtWidgets import QWidget, QPlainTextEdit, QVBoxLayout, QFileDialog, QMessageBox, QPushButton, QHBoxLayout, QApplication
+from qtpy.QtGui import QSyntaxHighlighter, QTextCharFormat, QColor, QFont, QPalette
+from qtpy.QtCore import QRegularExpression as QRegExp, Qt, Signal as pyqtSignal
 
 class PythonHighlighter(QSyntaxHighlighter):
-
     def __init__(self, parent=None):
-
         super().__init__(parent)
 
         # Formats
         keyword_format = QTextCharFormat()
-        keyword_format.setForeground(QColor("#569CD6"))  # blue
+        keyword_format.setForeground(QColor("#569CD6"))
         keyword_format.setFontWeight(QFont.Bold)
 
         builtin_format = QTextCharFormat()
-        builtin_format.setForeground(QColor("#DCDCAA"))  # yellow
+        builtin_format.setForeground(QColor("#DCDCAA"))
 
         string_format = QTextCharFormat()
-        string_format.setForeground(QColor("#CE9178"))  # orange
+        string_format.setForeground(QColor("#CE9178"))
 
         comment_format = QTextCharFormat()
-        comment_format.setForeground(QColor("#6A9955"))  # green
+        comment_format.setForeground(QColor("#6A9955"))
         comment_format.setFontItalic(True)
 
         number_format = QTextCharFormat()
-        number_format.setForeground(QColor("#B5CEA8"))  # light green
+        number_format.setForeground(QColor("#B5CEA8"))
 
         operator_format = QTextCharFormat()
-        operator_format.setForeground(QColor("#C586C0"))  # purple
+        operator_format.setForeground(QColor("#C586C0"))
 
         # Rules
         self.rules = []
+        
         self.rules += [(QRegExp(r"\b" + kw + r"\b"), keyword_format) for kw in keyword.kwlist]
 
         builtins_list = [name for name in dir(builtins) if callable(getattr(builtins, name))]
@@ -50,32 +47,26 @@ class PythonHighlighter(QSyntaxHighlighter):
             r"<", r">", r"==", r"!=", r"<=", r">=", 
             r"&", r"\|", r"\^", r"~", r"<<", r">>", r":="
         ]
+        # Escape special characters for regex
         self.rules += [(QRegExp(op), operator_format) for op in operators]
 
     def highlightBlock(self, text):
-
         for pattern, fmt in self.rules:
-            index = pattern.indexIn(text)
-            while index >= 0:
-                length = pattern.matchedLength()
-                self.setFormat(index, length, fmt)
-                index = pattern.indexIn(text, index + length)
-
+            match_iterator = pattern.globalMatch(text)
+            while match_iterator.hasNext():
+                match = match_iterator.next()
+                self.setFormat(match.capturedStart(), match.capturedLength(), fmt)
 
 class CodeEdit(QPlainTextEdit):
-
     def __init__(self, parent=None):
-
         super().__init__(parent)
-        
         self.setFont(QFont("Consolas", 11))
         self.setTabChangesFocus(False)
 
-        # Dark theme palette
         palette = self.palette()
-        palette.setColor(QPalette.Base, QColor("#1E1E1E"))       # background
-        palette.setColor(QPalette.Text, QColor("#D4D4D4"))       # default text
-        palette.setColor(QPalette.Highlight, QColor("#264F78"))  # selection
+        palette.setColor(QPalette.Base, QColor("#1E1E1E"))
+        palette.setColor(QPalette.Text, QColor("#D4D4D4"))
+        palette.setColor(QPalette.Highlight, QColor("#264F78"))
         palette.setColor(QPalette.HighlightedText, QColor("#FFFFFF"))
         self.setPalette(palette)
 
@@ -85,15 +76,11 @@ class CodeEdit(QPlainTextEdit):
         else:
             super().keyPressEvent(event)
 
-
 class CodeEditor(QWidget):
-
     textChanged = pyqtSignal()
 
     def __init__(self, parent=None):
-
         super().__init__(parent)
-
         self.editor = CodeEdit()
         self.editor.textChanged.connect(self.textChanged)
         self.highlighter = PythonHighlighter(self.editor.document())
@@ -119,7 +106,6 @@ class CodeEditor(QWidget):
         return self.editor.toPlainText()
 
     def load_file(self):
-
         path, _ = QFileDialog.getOpenFileName(self, "Open File", "", "Python Files (*.py);;All Files (*)")
         if path:
             try:
@@ -129,7 +115,6 @@ class CodeEditor(QWidget):
                 QMessageBox.critical(self, "Error", f"Failed to load file:\n{e}")
 
     def save_file(self):
-
         path, _ = QFileDialog.getSaveFileName(self, "Save File", "", "Python Files (*.py);;All Files (*)")
         if path:
             try:
@@ -138,15 +123,10 @@ class CodeEditor(QWidget):
             except Exception as e:
                 QMessageBox.critical(self, "Error", f"Failed to save file:\n{e}")
 
-
 if __name__ == "__main__":
-
-    from PyQt5.QtWidgets import QApplication
-
     app = QApplication([])
     w = CodeEditor()
     w.setPlainText("# Dark themed code editor\nfor i in range(3):\n    print(i)")
     w.resize(600, 400)
     w.show()
-    app.exec_()
-    print(w.toPlainText())
+    app.exec() 

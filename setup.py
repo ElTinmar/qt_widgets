@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name='qt_widgets',
     author='Martin Privat',
-    version='0.4.12',
+    version='0.5.0',
     packages=['qt_widgets','qt_widgets.tests'],
     license='Creative Commons Attribution-Noncommercial-Share Alike license',
     description='custom qt widgets and tools',
@@ -12,6 +12,11 @@ setup(
     package_data={"qt_widgets": ["resources/*"]},
     install_requires=[
         "numpy",
-        "PyQt5",
-    ]
+        "qtpy",
+    ],
+    extras_require={
+        "pyqt5": ["PyQt5"],
+        "pyqt6": ["PyQt6"],
+        "pyside6": ["PySide6"],
+    }
 )

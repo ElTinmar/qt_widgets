@@ -1,6 +1,6 @@
-from PyQt5.QtCore import Qt, QTimer
-from PyQt5.QtGui import QPainter, QColor, QPen
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout
+from qtpy.QtCore import Qt, QTimer
+from qtpy.QtGui import QPainter, QColor, QPen
+from qtpy.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout
 
 class Spinner(QWidget):
 
@@ -66,4 +66,4 @@ if __name__ == "__main__":
     QTimer.singleShot(4000, overlay.hide_overlay)
     QTimer.singleShot(1000, overlay.show_overlay)
 
-    app.exec_()
+    app.exec()

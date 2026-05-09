@@ -1,16 +1,14 @@
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QWidget, QFileDialog, QPushButton, QLabel, QHBoxLayout
-from .file_drop_editline import FileDropLineEdit
+from qtpy.QtGui import QIcon
+from qtpy.QtWidgets import QWidget, QFileDialog, QPushButton, QLabel, QHBoxLayout, QApplication
+from .file_drop_editline import FileDropLineEdit 
 from pathlib import Path
-from PyQt5.QtWidgets import QApplication
 
 class FileOpenLabeledEditButton(QWidget):
 
-    BASE_DIR = Path(__file__).resolve().parent  # Get the directory of the current script
+    BASE_DIR = Path(__file__).resolve().parent  
     LOAD_ICON = str(BASE_DIR / "resources" / "document-open.svg") 
 
     def __init__(self, *args, **kwargs) -> None:
-
         super().__init__(*args, **kwargs)
 
         self.default_file = ''
@@ -55,7 +53,7 @@ class FileOpenLabeledEditButton(QWidget):
     def text(self) -> str:
         return self.line_edit.text()
 
-    def setEnabled(self, enabled:bool) -> None:
+    def setEnabled(self, enabled: bool) -> None:
         self.line_edit.setEnabled(enabled)
         self.label.setEnabled(enabled)
         self.button.setEnabled(enabled)
@@ -74,8 +72,7 @@ class FileOpenLabeledEditButton(QWidget):
         return self.line_edit.textChanged 
 
 if __name__ == "__main__":
-
     app = QApplication([])
     widget = FileOpenLabeledEditButton()
     widget.show()
-    app.exec_()
+    app.exec()

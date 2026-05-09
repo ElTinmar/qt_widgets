@@ -1,16 +1,14 @@
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QWidget, QFileDialog, QPushButton, QLabel, QHBoxLayout
-from pathlib import Path
-from PyQt5.QtWidgets import QApplication
+from qtpy.QtGui import QIcon
+from qtpy.QtWidgets import QWidget, QFileDialog, QPushButton, QLabel, QHBoxLayout, QApplication
 from .file_drop_editline import FileDropLineEdit
+from pathlib import Path
 
 class FileSaveLabeledEditButton(QWidget):
 
-    BASE_DIR = Path(__file__).resolve().parent  # Get the directory of the current script
+    BASE_DIR = Path(__file__).resolve().parent  
     SAVE_ICON = str(BASE_DIR / "resources" / "document-save.svg")
     
     def __init__(self, *args, **kwargs) -> None:
-
         super().__init__(*args, **kwargs)
 
         self.default_file = ''
@@ -46,7 +44,7 @@ class FileSaveLabeledEditButton(QWidget):
     def setLabel(self, text: str) -> None:
         self.label.setText(text)
 
-    def setEnabled(self, enabled:bool) -> None:
+    def setEnabled(self, enabled: bool) -> None:
         self.line_edit.setEnabled(enabled)
         self.label.setEnabled(enabled)
         self.button.setEnabled(enabled)
@@ -62,8 +60,7 @@ class FileSaveLabeledEditButton(QWidget):
         self.line_edit.setText(text)
 
 if __name__ == "__main__":
-
     app = QApplication([])
     widget = FileSaveLabeledEditButton()
     widget.show()
-    app.exec_()
+    app.exec()

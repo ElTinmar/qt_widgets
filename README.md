@@ -3,6 +3,6 @@
 Custom Qt widgets and tools
 
 ```
-pip install git+https://github.com/ElTinmar/qt_widgets.git@main
+pip install "qt_widgets[pyqt5] @ git+https://github.com/ElTinmar/qt_widgets.git@main"
 ```
 

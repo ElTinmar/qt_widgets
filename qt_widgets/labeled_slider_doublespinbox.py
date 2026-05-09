@@ -1,6 +1,5 @@
-from PyQt5.QtWidgets import QWidget, QLabel, QSlider, QDoubleSpinBox, QHBoxLayout
-from PyQt5.QtCore import Qt, pyqtSignal
-from PyQt5.QtWidgets import QApplication
+from qtpy.QtWidgets import QWidget, QLabel, QSlider, QDoubleSpinBox, QHBoxLayout, QApplication
+from qtpy.QtCore import Qt, Signal as pyqtSignal
 
 class LabeledSliderDoubleSpinBox(QWidget):
 
@@ -10,7 +9,6 @@ class LabeledSliderDoubleSpinBox(QWidget):
     textEdited = pyqtSignal()
 
     def __init__(self, *args, **kwargs) -> None:
-
         super().__init__(*args, **kwargs)
 
         self.label = QLabel()
@@ -53,27 +51,27 @@ class LabeledSliderDoubleSpinBox(QWidget):
         self.label.setText(text)
 
     def setRange(self, lo: float, hi: float) -> None:
-        self.spinbox.setRange(lo,hi)
-        self.slider.setMinimum(int(lo*self.slider_precision))
-        self.slider.setMaximum(int(hi*self.slider_precision))
+        self.spinbox.setRange(lo, hi)
+        self.slider.setMinimum(int(lo * self.slider_precision))
+        self.slider.setMaximum(int(hi * self.slider_precision))
 
     def setMinimum(self, val: float) -> None:
         self.spinbox.setMinimum(val)
-        self.slider.setMinimum(int(val*self.slider_precision))
+        self.slider.setMinimum(int(val * self.slider_precision))
 
     def setMaximum(self, val: float) -> None:
         self.spinbox.setMaximum(val)
-        self.slider.setMaximum(int(val*self.slider_precision))
+        self.slider.setMaximum(int(val * self.slider_precision))
 
     def setValue(self, val: float) -> None:
         self.spinbox.setValue(val)
-        self.slider.setValue(int(val*self.slider_precision))
+        self.slider.setValue(int(val * self.slider_precision))
 
     def setSingleStep(self, val: float) -> None:
         self.spinbox.setSingleStep(val)
-        self.slider.setSingleStep(int(val*self.slider_precision))
+        self.slider.setSingleStep(int(val * self.slider_precision))
 
-    def setEnabled(self, enabled:bool) -> None:
+    def setEnabled(self, enabled: bool) -> None:
         self.slider.setEnabled(enabled)
         self.spinbox.setEnabled(enabled)
 
@@ -94,13 +92,15 @@ class LabeledSliderDoubleSpinBox(QWidget):
         return self.spinbox.value()
 
 if __name__ == "__main__":
-
+        
     app = QApplication([])
     widget = LabeledSliderDoubleSpinBox()
+    widget.setText("Adjust Level:")
+    widget.setRange(0.0, 10.0)
 
     widget.sliderPressed.connect(lambda: print('slider pressed'))
-    widget.valueChanged.connect(lambda: print('value changed'))
+    widget.valueChanged.connect(lambda: print(f'value changed: {widget.value()}'))
     widget.textEdited.connect(lambda: print('text edited'))
 
     widget.show()
-    app.exec_()
+    app.exec() 

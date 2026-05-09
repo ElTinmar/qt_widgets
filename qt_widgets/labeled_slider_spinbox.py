@@ -1,19 +1,19 @@
-from PyQt5.QtWidgets import QWidget, QLabel, QSlider, QSpinBox, QHBoxLayout
-from PyQt5.QtCore import Qt, pyqtSignal
-from PyQt5.QtWidgets import QApplication
+from qtpy.QtWidgets import QWidget, QLabel, QSlider, QSpinBox, QHBoxLayout, QApplication
+from qtpy.QtCore import Qt, Signal as pyqtSignal
 
 class LabeledSliderSpinBox(QWidget):
 
+    # Use Signal as pyqtSignal for compatibility across all backends
     valueChanged = pyqtSignal(int)
     sliderPressed = pyqtSignal()
     textEdited = pyqtSignal()
 
     def __init__(self, *args, **kwargs) -> None:
-
         super().__init__(*args, **kwargs)
 
         self.label = QLabel()
 
+        # qtpy handles the Qt.Horizontal namespace mapping for you
         self.slider = QSlider(Qt.Horizontal)
         self.slider.sliderPressed.connect(self.sliderPressed)
         self.slider.sliderMoved.connect(self.slider_change)
@@ -49,7 +49,7 @@ class LabeledSliderSpinBox(QWidget):
         self.label.setText(text)
 
     def setRange(self, lo: int, hi: int) -> None:
-        self.spinbox.setRange(lo,hi)
+        self.spinbox.setRange(lo, hi)
         self.slider.setMinimum(lo)
         self.slider.setMaximum(hi)
 
@@ -69,7 +69,7 @@ class LabeledSliderSpinBox(QWidget):
         self.spinbox.setSingleStep(val)
         self.slider.setSingleStep(val)
 
-    def setEnabled(self, enabled:bool) -> None:
+    def setEnabled(self, enabled: bool) -> None:
         self.slider.setEnabled(enabled)
         self.spinbox.setEnabled(enabled)
 
@@ -86,13 +86,15 @@ class LabeledSliderSpinBox(QWidget):
         return self.spinbox.value()
 
 if __name__ == "__main__":
-
     app = QApplication([])
     widget = LabeledSliderSpinBox()
+    widget.setText("Volume:")
+    widget.setRange(0, 100)
 
     widget.sliderPressed.connect(lambda: print('slider pressed'))
-    widget.valueChanged.connect(lambda: print('value changed'))
+    widget.valueChanged.connect(lambda v: print(f'value changed: {v}'))
     widget.textEdited.connect(lambda: print('text edited'))
 
     widget.show()
-    app.exec_()
+    # Normalize to .exec() for PyQt6/PySide6 compatibility
+    app.exec()

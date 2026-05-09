@@ -1,10 +1,8 @@
-from PyQt5.QtWidgets import QWidget, QLabel, QSpinBox, QHBoxLayout
-from PyQt5.QtWidgets import QApplication
+from qtpy.QtWidgets import QWidget, QLabel, QSpinBox, QHBoxLayout, QApplication
 
 class LabeledSpinBox(QWidget):
 
     def __init__(self, *args, **kwargs) -> None:
-
         super().__init__(*args, **kwargs)
 
         self.label = QLabel()
@@ -23,7 +21,7 @@ class LabeledSpinBox(QWidget):
         self.label.setText(text)
 
     def setRange(self, lo: int, hi: int) -> None:
-        self.spinbox.setRange(lo,hi)
+        self.spinbox.setRange(lo, hi)
 
     def setMinimum(self, val: int) -> None:
         self.spinbox.setMinimum(val)
@@ -37,19 +35,19 @@ class LabeledSpinBox(QWidget):
     def setSingleStep(self, val: int) -> None:
         self.spinbox.setSingleStep(val)
 
-    def setEnabled(self, enabled:bool) -> None:
+    def setEnabled(self, enabled: bool) -> None:
         self.spinbox.setEnabled(enabled)
     
-    def minimum(self):
+    def minimum(self) -> int:
         return self.spinbox.minimum()
 
-    def maximum(self):
+    def maximum(self) -> int:
         return self.spinbox.maximum()
 
-    def singleStep(self):
+    def singleStep(self) -> int:
         return self.spinbox.singleStep()
     
-    def isEnabled(self):
+    def isEnabled(self) -> bool:
         return self.spinbox.isEnabled()
 
     def stepUp(self):
@@ -69,8 +67,10 @@ class LabeledSpinBox(QWidget):
         return self.spinbox.value()
 
 if __name__ == "__main__":
-
     app = QApplication([])
     widget = LabeledSpinBox()
+    widget.setText("Integer Value:")
+    widget.setRange(0, 100)
+    widget.setValue(42)
     widget.show()
-    app.exec_()
+    app.exec()
