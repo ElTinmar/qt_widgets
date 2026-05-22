@@ -25,6 +25,9 @@ class LabeledEditLine(QWidget):
     def text(self) -> str:
         return self.line_edit.text()
 
+    def setValidator(self, validator) -> None:
+        self.line_edit.setValidator(validator)
+
     @property
     def textChanged(self):
         return self.line_edit.textChanged 
