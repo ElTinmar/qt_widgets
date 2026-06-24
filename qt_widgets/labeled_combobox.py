@@ -30,6 +30,18 @@ class LabeledComboBox(QWidget):
     def addItems(self, items: Iterable) -> None:
         self.combobox.addItems(list(items))
 
+    def itemData(self, index: int, role: int = Qt.UserRole) -> Any:
+        return self.combobox.itemData(index, role)
+
+    def itemText(self, index: int) -> str:
+        return self.combobox.itemText(index)
+
+    def setItemText(self, index: int, text: str) -> None:
+        self.combobox.setItemText(index, text)
+
+    def setPlaceholderText(self, text: str) -> None:
+        self.combobox.setPlaceholderText(text)
+
     def setEnabled(self, enabled: bool) -> None:
         self.combobox.setEnabled(enabled)
     
