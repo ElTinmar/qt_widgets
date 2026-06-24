@@ -47,6 +47,9 @@ class LabeledComboBox(QWidget):
     def clear(self):
         self.combobox.clear()
 
+    def count(self) -> int:
+        return self.combobox.count()
+
     def on_change(self):
         index = self.combobox.currentIndex()
         text = self.combobox.currentText()
